@@ -6,9 +6,9 @@ import debounce from "lodash/debounce";
 import { isBrowser } from "browser-or-node";
 if (isBrowser) {
     import("lightgallery.js").then(() => {
-        console.log("lightgallery.js is loaded");
+        console.info("lightgallery.js is loaded");
         import("lg-fullscreen.js").then(() => {
-            console.log("lg-fullscreen.js is loaded");
+            console.info("lg-fullscreen.js is loaded");
         });
     });
 }
@@ -21,7 +21,8 @@ class LightgalleryProvider extends Component {
         children: PT.any,
         // https://sachinchoolur.github.io/lightgallery.js/docs/api.html#lightgallery-core
         lightgallerySettings: PT.object,
-        galleryClassName: PT.string
+        galleryClassName: PT.string,
+        portalElementSelector: PT.string
     };
 
     groups = {};
@@ -82,7 +83,17 @@ class LightgalleryProvider extends Component {
     };
 
     render() {
-        const { galleryClassName = addPrefix("gallery") } = this.props;
+        const {
+            galleryClassName = addPrefix("gallery"),
+            portalElementSelector
+        } = this.props;
+        let portalTarget = null;
+        if (isBrowser) {
+            // TODO log about error
+            portalTarget = portalElementSelector
+                ? document.querySelector(portalElementSelector)
+                : document.body;
+        }
         return (
             <lightgalleryContext.Provider
                 value={{
@@ -91,15 +102,15 @@ class LightgalleryProvider extends Component {
                     openGallery: this.openGallery
                 }}
             >
+                {this.props.children}
                 {isBrowser &&
                     createPortal(
                         <div
                             className={galleryClassName}
                             ref={this.gallery_element}
                         />,
-                        document.body
+                        portalTarget
                     )}
-                {this.props.children}
             </lightgalleryContext.Provider>
         );
     }

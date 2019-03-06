@@ -74,6 +74,26 @@ const PhotoItem = ({ image, url, title }) => (
 );
 ```
 
+# Props
+
+## LightgalleryProvider
+
+| Prop                  | Type   | Default                      | Required | Description                                                              |
+| --------------------- | ------ | ---------------------------- | -------- | ------------------------------------------------------------------------ |
+| lightgallerySettings  | Object | {}                           | no       | Setting for lightgallery                                                 |
+| galleryClassName      | String | "react_lightgallery_gallery" | no       | Class name of gallery target element                                     |
+| portalElementSelector | String | body                         | no       | Portal target element for adding divelement(lightgallery target element) |
+
+## LightgalleryItem
+
+| Prop          | Type   | Default                   | Required | Description                                                     |
+| ------------- | ------ | ------------------------- | -------- | --------------------------------------------------------------- |
+| group         | String | undefined                 | yes      | Name of group of photos set                                     |
+| src           | String | undefined                 | yes      | Url to image                                                    |
+| downloadUrl   | String | undefined                 | no       | Link for download link                                          |
+| subHtml       | String | undefined                 | no       | id or class name of an object(div) which contain your sub html. |
+| itemClassName | String | "react_lightgallery_item" | no       | class name of wrapper(div) of children                          |
+
 # DEMO
 
 [![Edit react-lightgallery1](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/mo45kpo92j?fontsize=14)
@@ -82,5 +102,6 @@ const PhotoItem = ({ image, url, title }) => (
 
 -   API Reference
 -   Support of video
+-   More options from lightgallery for LightgalleryItem
 -   Write tests
 -   Write d.ts
