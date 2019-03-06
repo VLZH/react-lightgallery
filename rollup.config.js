@@ -35,7 +35,8 @@ module.exports = {
         "lightgallery.js",
         "lg-fullscreen.js",
         "browser-or-node",
-        "prop-types"
+        "prop-types",
+        "uniqid"
     ],
     inlineDynamicImports: true
 };

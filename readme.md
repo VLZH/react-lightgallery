@@ -74,9 +74,13 @@ const PhotoItem = ({ image, url, title }) => (
 );
 ```
 
+# DEMO
+
+[![Edit react-lightgallery1](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/mo45kpo92j?fontsize=14)
+
 # TODO
 
--   Add live Demo
+-   API Reference
 -   Support of video
 -   Write tests
 -   Write d.ts
