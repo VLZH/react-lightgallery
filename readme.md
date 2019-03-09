@@ -1,6 +1,6 @@
 # About
 
-This package is wrapper for: [lightgallery.js](https://sachinchoolur.github.io/lightgallery.js)
+This package is react wrapper for: [lightgallery.js](https://sachinchoolur.github.io/lightgallery.js)
 
 # Instalation
 
