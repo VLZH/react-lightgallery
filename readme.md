@@ -54,11 +54,13 @@ Wrap some elements by `<LightgalleryItem>`
 
 ```javascript
 // some PhotoItem.js file
+import { LightgalleryItem } from "react-lightgallery";
+
 const PhotoItem = ({ image, url, title }) => (
-    <Item>
+    <div>
         <LightgalleryItem group="any" src={image}>
-            <Link href={url}>
-                <Image src={image} />
+            <a href={url}>
+                <img src={image} />
                 <ItemTitle>
                     <LinesEllipsis
                         text={title}
@@ -68,9 +70,9 @@ const PhotoItem = ({ image, url, title }) => (
                         basedOn="letters"
                     />
                 </ItemTitle>
-            </Link>
+            </a>
         </LightgalleryItem>
-    </Item>
+    </div>
 );
 ```
 
