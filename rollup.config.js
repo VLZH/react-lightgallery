@@ -34,6 +34,8 @@ module.exports = {
         "react-dom",
         "lightgallery.js",
         "lg-fullscreen.js",
+        "lg-zoom.js",
+        "lg-thumbnail.js",
         "browser-or-node",
         "prop-types",
         "uniqid"

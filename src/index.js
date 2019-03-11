@@ -10,6 +10,12 @@ if (isBrowser) {
         import("lg-fullscreen.js").then(() => {
             console.info("lg-fullscreen.js is loaded");
         });
+        import("lg-zoom.js").then(() => {
+            console.info("lg-zoom.js is loaded");
+        });
+        import("lg-thumbnail.js").then(() => {
+            console.info("lg-thumbnail.js is loaded");
+        });
     });
 }
 
