@@ -8,13 +8,16 @@ if (isBrowser) {
     import("lightgallery.js").then(() => {
         console.info("lightgallery.js is loaded");
         import("lg-fullscreen.js").then(() => {
-            console.info("lg-fullscreen.js is loaded");
+            // console.info("lg-fullscreen.js is loaded");
         });
         import("lg-zoom.js").then(() => {
-            console.info("lg-zoom.js is loaded");
+            // console.info("lg-zoom.js is loaded");
         });
         import("lg-thumbnail.js").then(() => {
-            console.info("lg-thumbnail.js is loaded");
+            // console.info("lg-thumbnail.js is loaded");
+        });
+        import("lg-video.js").then(() => {
+            // console.info("lg-video.js is loaded");
         });
     });
 }

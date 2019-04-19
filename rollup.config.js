@@ -36,6 +36,7 @@ module.exports = {
         "lg-fullscreen.js",
         "lg-zoom.js",
         "lg-thumbnail.js",
+        "lg-video.js",
         "browser-or-node",
         "prop-types",
         "uniqid"
