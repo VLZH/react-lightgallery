@@ -103,6 +103,7 @@ const PhotoItem = ({ image, url, title }) => (
 # TODO
 
 -   API Reference
+-   Optional plugins
 -   Support of video
 -   More options from lightgallery for LightgalleryItem
 -   Write tests
