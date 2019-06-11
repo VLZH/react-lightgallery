@@ -66,6 +66,16 @@ class LightgalleryProvider extends Component {
         this._forceUpdate();
     };
 
+    destroyExistGallery = () => {
+        if (
+            typeof window === "object" &&
+            window.lgData &&
+            window.lgData[this.getLgUid()]
+        ) {
+            window.lgData[this.getLgUid()].destroy(true);
+        }
+    };
+
     openGallery = (item_id, group_name) => {
         if (!this.gallery_element.current) {
             console.error(
@@ -77,10 +87,7 @@ class LightgalleryProvider extends Component {
             console.error("Trying to open undefined group");
             return;
         }
-        // destroy previous gallery
-        if (window.lgData && window.lgData[this.getLgUid()]) {
-            window.lgData[this.getLgUid()].destroy(true);
-        }
+        this.destroyExistGallery();
         // open new gallery
         const current_group = this.groups[group_name];
         lightGallery(this.gallery_element.current, {
