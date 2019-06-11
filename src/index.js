@@ -35,8 +35,11 @@ class LightgalleryProvider extends Component {
     };
 
     groups = {};
-
     gallery_element = createRef();
+
+    componentWillUnmount() {
+        this.destroyExistGallery();
+    }
 
     _forceUpdate = debounce(this.forceUpdate, 50);
 

@@ -14,6 +14,20 @@ or
 npm install --save react-lightgallery
 ```
 
+# Run example
+```
+git clone git@github.com:VLZH/react-lightgallery.git
+# go to project folder
+cd ./react-lightgallery
+# install dependencies
+yarn install
+# run example
+yarn start:example
+```
+## Live demo
+
+[![Edit react-lightgallery1](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/mo45kpo92j?fontsize=14)
+
 # Usage
 
 Import `.css` file in your code:
@@ -95,10 +109,6 @@ const PhotoItem = ({ image, url, title }) => (
 | downloadUrl   | String | undefined                 | no       | Link for download link                                          |
 | subHtml       | String | undefined                 | no       | id or class name of an object(div) which contain your sub html. |
 | itemClassName | String | "react_lightgallery_item" | no       | class name of wrapper(div) of children                          |
-
-# DEMO
-
-[![Edit react-lightgallery1](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/mo45kpo92j?fontsize=14)
 
 # TODO
 
