@@ -1,6 +1,6 @@
 {
     "name": "react-lightgallery",
-    "version": "0.4.2",
+    "version": "0.4.3",
     "description": "React wrapper for https://github.com/sachinchoolur/lightgallery.js",
     "keywords": [
         "react",
@@ -18,7 +18,7 @@
         "build": "NODE_ENV=production yarn rollup -c ./rollup.config.js",
         "build:example": "NODE_ENV=production yarn rollup -c ./rollup.config.js",
         "start": "yarn rollup --watch -c ./rollup.config.js",
-        "start:example": "parcel serve ./example/index.html",
+        "start:example": "parcel serve --out-dir ./.example_dist ./example/index.html",
         "lint": "yarn eslint ./"
     },
     "author": "VLZH",
