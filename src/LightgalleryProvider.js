@@ -36,6 +36,7 @@ export class LightgalleryProvider extends Component {
 
     groups = {};
     gallery_element = createRef();
+    destroy_listener = null;
 
     componentWillUnmount() {
         this.destroyExistGallery();
@@ -79,6 +80,18 @@ export class LightgalleryProvider extends Component {
         }
     };
 
+    setupCloseListener = () => {
+        const el = this.gallery_element.current;
+        this.destroy_listener = () => {
+            setTimeout(() => {
+                this.destroyExistGallery();
+                el.removeEventListener("onCloseAfter", this.destroy_listener);
+                this.destroy_listener = null;
+            }, 0);
+        };
+        el.addEventListener("onCloseAfter", this.destroy_listener);
+    };
+
     openGallery = (item_id, group_name) => {
         if (!this.gallery_element.current) {
             console.error(
@@ -99,6 +112,7 @@ export class LightgalleryProvider extends Component {
             dynamicEl: current_group,
             index: current_group.findIndex(i => i.id === item_id)
         });
+        this.setupCloseListener();
     };
 
     render() {
@@ -122,7 +136,7 @@ export class LightgalleryProvider extends Component {
                 }}
             >
                 {this.props.children}
-                {isBrowser &&
+                {portalTarget &&
                     createPortal(
                         <div
                             className={galleryClassName}
