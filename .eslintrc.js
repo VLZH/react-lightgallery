@@ -4,7 +4,13 @@ module.exports = {
         node: true,
         es6: true
     },
-    extends: ["eslint:recommended", "plugin:react/recommended", "prettier"],
+    extends: [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "prettier",
+        "plugin:import/errors",
+        "plugin:import/warnings"
+    ],
     parser: "babel-eslint",
     parserOptions: {
         ecmaFeatures: {
@@ -13,7 +19,7 @@ module.exports = {
         ecmaVersion: 2018,
         sourceType: "module"
     },
-    plugins: ["react", "prettier"],
+    plugins: ["react", "prettier", "import"],
     rules: {
         indent: ["error", 4],
         "linebreak-style": ["error", "unix"],
