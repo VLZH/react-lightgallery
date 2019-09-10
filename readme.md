@@ -4,13 +4,11 @@ This package is react wrapper for: [lightgallery.js](https://sachinchoolur.githu
 
 # Instalation
 
-```
+```bash
 yarn add react-lightgallery
 ```
-
 or
-
-```
+```bash
 npm install --save react-lightgallery
 ```
 
@@ -94,11 +92,47 @@ const PhotoItem = ({ image, url, title }) => (
 
 ## LightgalleryProvider
 
-| Prop                  | Type   | Default                      | Required | Description                                                              |
-| --------------------- | ------ | ---------------------------- | -------- | ------------------------------------------------------------------------ |
-| lightgallerySettings  | Object | {}                           | no       | Setting for lightgallery                                                 |
-| galleryClassName      | String | "react_lightgallery_gallery" | no       | Class name of gallery target element                                     |
-| portalElementSelector | String | body                         | no       | Portal target element for adding divelement(lightgallery target element) |
+| Prop                  | Type   | Default                      | Required | Description                                                                                                         |
+|-----------------------|--------|------------------------------|----------|---------------------------------------------------------------------------------------------------------------------|
+| lightgallerySettings  | Object | {}                           | no       | Setting for lightgallery. [More information](https://sachinchoolur.github.io/lightgallery.js/docs/api.html#options) |
+| galleryClassName      | String | "react_lightgallery_gallery" | no       | Class name of gallery target element                                                                                |
+| portalElementSelector | String | body                         | no       | Portal target element for adding divelement(lightgallery target element)                                            |
+
+### Supported Events
+You can access to events by using these **props**:
+
+| Prop              | Type     |
+|-------------------|----------|
+| onAfterOpen       | Function |
+| onSlideItemLoad   | Function |
+| onBeforeSlide     | Function |
+| onAfterSlide      | Function |
+| onBeforePrevSlide | Function |
+| onBeforeNextSlide | Function |
+| onDragstart       | Function |
+| onDragmove        | Function |
+| onDragend         | Function |
+| onSlideClick      | Function |
+| onBeforeClose     | Function |
+| onCloseAfter      | Function |
+
+Example of using events:
+```javascript
+class App extends React.Component {
+    render() {
+        return (
+            <LightgalleryProvider
+                onAfterSlide={(event) => {
+                    console.log(`Prev slide index: ${event.detail.prevIndex}; Current index: ${event.detail.index}`)
+                }}
+            >
+                // your components
+            </LightgalleryProvider>
+        );
+    }
+}
+```
+
 
 ## LightgalleryItem
 
@@ -112,9 +146,9 @@ const PhotoItem = ({ image, url, title }) => (
 
 # TODO
 
--   API Reference
--   Optional plugins
--   Support of video
--   More options from lightgallery for LightgalleryItem
--   Write tests
--   Write d.ts
+- Access to specific events through LightgalleryItem, like: `onOpen`, `onLeave`, `onEnter`
+- More options from lightgallery for LightgalleryItem
+- Optional plugins
+- Support of video
+- Write tests
+- Write d.ts

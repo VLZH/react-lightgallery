@@ -31,12 +31,26 @@ export class LightgalleryProvider extends Component {
         // https://sachinchoolur.github.io/lightgallery.js/docs/api.html#lightgallery-core
         lightgallerySettings: PT.object,
         galleryClassName: PT.string,
-        portalElementSelector: PT.string
+        portalElementSelector: PT.string,
+        // events
+        onBeforeOpen: PT.func,
+        onAfterOpen: PT.func,
+        onSlideItemLoad: PT.func,
+        onBeforeSlide: PT.func,
+        onAfterSlide: PT.func,
+        onBeforePrevSlide: PT.func,
+        onBeforeNextSlide: PT.func,
+        onDragstart: PT.func,
+        onDragmove: PT.func,
+        onDragend: PT.func,
+        onSlideClick: PT.func,
+        onBeforeClose: PT.func,
+        onCloseAfter: PT.func
     };
 
     groups = {};
     gallery_element = createRef();
-    destroy_listener = null;
+    listeners = {};
 
     componentWillUnmount() {
         this.destroyExistGallery();
@@ -76,20 +90,69 @@ export class LightgalleryProvider extends Component {
             window.lgData &&
             window.lgData[this.getLgUid()]
         ) {
+            this.removeListeners();
             window.lgData[this.getLgUid()].destroy(true);
         }
     };
 
-    setupCloseListener = () => {
+    /**
+     * @prop {string} event_type - event name/type
+     */
+    setUpListener = (event_type, additional_handler) => {
         const el = this.gallery_element.current;
-        this.destroy_listener = () => {
+        const handler = event => {
+            if (this.props[event_type]) {
+                // handler in props
+                this.props[event_type](event);
+            }
+            if (additional_handler) {
+                additional_handler();
+            }
+        };
+        el.addEventListener(event_type, handler);
+        if (this.listeners[event_type]) {
+            console.error(`Event ${event_type} already exist in listeners`);
+        }
+        this.listeners[event_type] = handler;
+    };
+
+    /**
+     * Remove listener from slider-element
+     * @prop {string} event_type - event name/type
+     */
+    removeListener = event_type => {
+        const el = this.gallery_element.current;
+        if (this.listeners[event_type]) {
+            el.removeEventListener(event_type, this.listeners[event_type]);
+            delete this.listeners[event_type];
+        }
+    };
+
+    removeListeners = () => {
+        for (const key in this.listeners) {
+            this.removeListener(key);
+        }
+    };
+
+    setupListeners = () => {
+        const destroy_listener = () => {
             setTimeout(() => {
                 this.destroyExistGallery();
-                el.removeEventListener("onCloseAfter", this.destroy_listener);
-                this.destroy_listener = null;
             }, 0);
         };
-        el.addEventListener("onCloseAfter", this.destroy_listener);
+        this.setUpListener("onBeforeOpen");
+        this.setUpListener("onAfterOpen");
+        this.setUpListener("onSlideItemLoad");
+        this.setUpListener("onBeforeSlide");
+        this.setUpListener("onAfterSlide");
+        this.setUpListener("onBeforePrevSlide");
+        this.setUpListener("onBeforeNextSlide");
+        this.setUpListener("onDragstart");
+        this.setUpListener("onDragmove");
+        this.setUpListener("onDragend");
+        this.setUpListener("onSlideClick");
+        this.setUpListener("onBeforeClose");
+        this.setUpListener("onCloseAfter", destroy_listener);
     };
 
     openGallery = (item_id, group_name) => {
@@ -112,7 +175,7 @@ export class LightgalleryProvider extends Component {
             dynamicEl: current_group,
             index: current_group.findIndex(i => i.id === item_id)
         });
-        this.setupCloseListener();
+        this.setupListeners();
     };
 
     render() {

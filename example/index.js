@@ -26,7 +26,21 @@ const PhotoItem = ({ image, group }) => (
 
 function App() {
     return (
-        <LightgalleryProvider>
+        <LightgalleryProvider
+            onBeforeOpen={() => console.info("onBeforeOpen")}
+            onAfterOpen={() => console.info("onAfterOpen")}
+            onSlideItemLoad={() => console.info("onSlideItemLoad")}
+            onBeforeSlide={() => console.info("onBeforeSlide")}
+            onAfterSlide={() => console.info("onAfterSlide")}
+            onBeforePrevSlide={() => console.info("onBeforePrevSlide")}
+            onBeforeNextSlide={() => console.info("onBeforeNextSlide")}
+            onDragstart={() => console.info("onDragstart")}
+            onDragmove={() => console.info("onDragmove")}
+            onDragend={() => console.info("onDragend")}
+            onSlideClick={() => console.info("onSlideClick")}
+            onBeforeClose={() => console.info("onBeforeClose")}
+            onCloseAfter={() => console.info("onCloseAfter")}
+        >
             <h1 style={{ textAlign: "center" }}>Group 1</h1>
             <div style={{ display: "flex", alignItems: "center" }}>
                 {GROUP1.map((p, idx) => (
