@@ -3,7 +3,7 @@ This package is react wrapper for: [lightgallery.js](https://sachinchoolur.githu
 
 ![npm](https://img.shields.io/npm/dm/react-lightgallery) ![GitHub issues](https://img.shields.io/github/issues-raw/vlzh/react-lightgallery) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-lightgallery)
 
-# Instalation
+# Installation
 
 ```bash
 yarn add react-lightgallery
@@ -16,7 +16,7 @@ npm install --save react-lightgallery
 # Run example
 ```
 git clone git@github.com:VLZH/react-lightgallery.git
-# go to project folder
+# go to the project folder
 cd ./react-lightgallery
 # install dependencies
 yarn install
