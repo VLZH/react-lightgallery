@@ -1,6 +1,7 @@
 # About
-
 This package is react wrapper for: [lightgallery.js](https://sachinchoolur.github.io/lightgallery.js)
+
+![npm](https://img.shields.io/npm/dm/react-lightgallery) ![GitHub issues](https://img.shields.io/github/issues-raw/vlzh/react-lightgallery) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-lightgallery)
 
 # Instalation
 
