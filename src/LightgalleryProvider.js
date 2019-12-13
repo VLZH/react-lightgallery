@@ -58,6 +58,8 @@ export class LightgalleryProvider extends Component {
     groups = {};
     gallery_element = createRef();
     listeners = {};
+    // this component will unmount and we must prevent forceUpdate call from children
+    will_unmount = false;
 
     componentDidMount() {
         const { plugins, onLightgalleryImport } = this.props;
@@ -95,6 +97,8 @@ export class LightgalleryProvider extends Component {
     }
 
     componentWillUnmount() {
+        this.will_unmount = true;
+        this._forceUpdate.cancel();
         this.destroyExistGallery();
     }
 
@@ -117,6 +121,7 @@ export class LightgalleryProvider extends Component {
     };
 
     unregisterPhoto = (item_id, group_name) => {
+        if (this.will_unmount) return;
         this.groups = {
             ...this.groups,
             [group_name]: this.groups[group_name].filter(

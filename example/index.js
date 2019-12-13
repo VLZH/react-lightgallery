@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import PT from "prop-types";
 import ReactDOM from "react-dom";
 import { LightgalleryProvider, LightgalleryItem } from "../src/index.js";
 //
 import "./styles.css";
-// import "lightgallery.js/dist/css/lightgallery.css";
+import "lightgallery.js/dist/css/lightgallery.css";
 
 const GROUP1 = [
     [
@@ -37,40 +37,56 @@ PhotoItem.propTypes = {
 };
 
 function App() {
+    const [visible, setVisible] = useState(true);
     return (
-        <LightgalleryProvider
-            onBeforeOpen={() => console.info("onBeforeOpen")}
-            onAfterOpen={() => console.info("onAfterOpen")}
-            onSlideItemLoad={() => console.info("onSlideItemLoad")}
-            onBeforeSlide={() => console.info("onBeforeSlide")}
-            onAfterSlide={() => console.info("onAfterSlide")}
-            onBeforePrevSlide={() => console.info("onBeforePrevSlide")}
-            onBeforeNextSlide={() => console.info("onBeforeNextSlide")}
-            onDragstart={() => console.info("onDragstart")}
-            onDragmove={() => console.info("onDragmove")}
-            onDragend={() => console.info("onDragend")}
-            onSlideClick={() => console.info("onSlideClick")}
-            onBeforeClose={() => console.info("onBeforeClose")}
-            onCloseAfter={() => console.info("onCloseAfter")}
-        >
-            <h1 style={{ textAlign: "center" }}>Group 1</h1>
-            <div style={{ display: "flex", alignItems: "center" }}>
-                {GROUP1.map((p, idx) => (
-                    <PhotoItem
-                        key={idx}
-                        image={p[0]}
-                        thumb={p[1]}
-                        group="group1"
-                    />
-                ))}
+        <>
+            <button onClick={() => setVisible(!visible)}>
+                Change visibility
+            </button>
+            <div>
+                {visible ? (
+                    <LightgalleryProvider
+                        onBeforeOpen={() => console.info("onBeforeOpen")}
+                        onAfterOpen={() => console.info("onAfterOpen")}
+                        onSlideItemLoad={() => console.info("onSlideItemLoad")}
+                        onBeforeSlide={() => console.info("onBeforeSlide")}
+                        onAfterSlide={() => console.info("onAfterSlide")}
+                        onBeforePrevSlide={() =>
+                            console.info("onBeforePrevSlide")
+                        }
+                        onBeforeNextSlide={() =>
+                            console.info("onBeforeNextSlide")
+                        }
+                        onDragstart={() => console.info("onDragstart")}
+                        onDragmove={() => console.info("onDragmove")}
+                        onDragend={() => console.info("onDragend")}
+                        onSlideClick={() => console.info("onSlideClick")}
+                        onBeforeClose={() => console.info("onBeforeClose")}
+                        onCloseAfter={() => console.info("onCloseAfter")}
+                    >
+                        <h1 style={{ textAlign: "center" }}>Group 1</h1>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                            {GROUP1.map((p, idx) => (
+                                <PhotoItem
+                                    key={idx}
+                                    image={p[0]}
+                                    thumb={p[1]}
+                                    group="group1"
+                                />
+                            ))}
+                        </div>
+                        <h1 style={{ textAlign: "center" }}>Group 2</h1>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                            {GROUP2.map((p, idx) => (
+                                <PhotoItem key={idx} image={p} group="group2" />
+                            ))}
+                        </div>
+                    </LightgalleryProvider>
+                ) : (
+                    <p>Unvisible</p>
+                )}
             </div>
-            <h1 style={{ textAlign: "center" }}>Group 2</h1>
-            <div style={{ display: "flex", alignItems: "center" }}>
-                {GROUP2.map((p, idx) => (
-                    <PhotoItem key={idx} image={p} group="group2" />
-                ))}
-            </div>
-        </LightgalleryProvider>
+        </>
     );
 }
 
