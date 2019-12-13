@@ -7,27 +7,32 @@ import { isBrowser } from "browser-or-node";
 import lightgalleryContext from "./lightgalleryContext";
 import { addPrefix } from "./utils";
 
-if (isBrowser) {
-    import("lightgallery.js").then(() => {
-        console.info("lightgallery.js is loaded");
-        import("lg-fullscreen.js").then(() => {
-            // console.info("lg-fullscreen.js is loaded");
-        });
-        import("lg-zoom.js").then(() => {
-            // console.info("lg-zoom.js is loaded");
-        });
-        import("lg-thumbnail.js").then(() => {
-            // console.info("lg-thumbnail.js is loaded");
-        });
-        import("lg-video.js").then(() => {
-            // console.info("lg-video.js is loaded");
-        });
-    });
-}
+const PLUGINS_LIST = [
+    "lg-autoplay.js",
+    "lg-fullscreen.js",
+    "lg-hash.js",
+    "lg-pager.js",
+    "lg-thumbnail.js",
+    "lg-video.js",
+    "lg-zoom.js",
+    "lg-share.js"
+];
+
+const DEFAULT_PLUGINS = [
+    "lg-fullscreen.js",
+    "lg-thumbnail.js",
+    "lg-video.js",
+    "lg-zoom.js"
+];
 
 export class LightgalleryProvider extends Component {
+    static defaultProps = {
+        plugins: DEFAULT_PLUGINS
+    };
+
     static propTypes = {
         children: PT.any,
+        plugins: PT.arrayOf(PT.oneOf(PLUGINS_LIST)),
         // https://sachinchoolur.github.io/lightgallery.js/docs/api.html#lightgallery-core
         lightgallerySettings: PT.object,
         galleryClassName: PT.string,
@@ -45,12 +50,49 @@ export class LightgalleryProvider extends Component {
         onDragend: PT.func,
         onSlideClick: PT.func,
         onBeforeClose: PT.func,
-        onCloseAfter: PT.func
+        onCloseAfter: PT.func,
+        //
+        onLightgalleryImport: PT.func
     };
 
     groups = {};
     gallery_element = createRef();
     listeners = {};
+
+    componentDidMount() {
+        const { plugins, onLightgalleryImport } = this.props;
+        if (isBrowser && !window.lgData) {
+            import("lightgallery.js").then(() => {
+                if (plugins.includes("lg-autoplay.js")) {
+                    import("lg-autoplay.js").then();
+                }
+                if (plugins.includes("lg-fullscreen.js")) {
+                    import("lg-fullscreen.js").then();
+                }
+                if (plugins.includes("lg-hash.js")) {
+                    import("lg-hash.js").then();
+                }
+                if (plugins.includes("lg-pager.js")) {
+                    import("lg-pager.js").then();
+                }
+                if (plugins.includes("lg-thumbnail.js")) {
+                    import("lg-thumbnail.js").then();
+                }
+                if (plugins.includes("lg-video.js")) {
+                    import("lg-video.js").then();
+                }
+                if (plugins.includes("lg-zoom.js")) {
+                    import("lg-zoom.js").then();
+                }
+                if (plugins.includes("lg-share.js")) {
+                    import("lg-share.js").then();
+                }
+                if (onLightgalleryImport) {
+                    onLightgalleryImport();
+                }
+            });
+        }
+    }
 
     componentWillUnmount() {
         this.destroyExistGallery();
@@ -185,10 +227,16 @@ export class LightgalleryProvider extends Component {
         } = this.props;
         let portalTarget = null;
         if (isBrowser) {
-            // TODO log about error
-            portalTarget = portalElementSelector
-                ? document.querySelector(portalElementSelector)
-                : document.body;
+            portalTarget = document.body;
+            if (portalElementSelector) {
+                const el = document.querySelector(portalElementSelector);
+                if (!el) {
+                    console.error(
+                        "There is cannot to find element by selector: `${portalElementSelector}` lightgallery element will be added to document.body"
+                    );
+                }
+                portalTarget = el;
+            }
         }
         return (
             <lightgalleryContext.Provider

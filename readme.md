@@ -93,11 +93,22 @@ const PhotoItem = ({ image, url, title }) => (
 
 ## LightgalleryProvider
 
-| Prop                  | Type   | Default                      | Required | Description                                                                                                         |
-|-----------------------|--------|------------------------------|----------|---------------------------------------------------------------------------------------------------------------------|
-| lightgallerySettings  | Object | {}                           | no       | Setting for lightgallery. [More information](https://sachinchoolur.github.io/lightgallery.js/docs/api.html#options) |
-| galleryClassName      | String | "react_lightgallery_gallery" | no       | Class name of gallery target element                                                                                |
-| portalElementSelector | String | body                         | no       | Portal target element for adding divelement(lightgallery target element)                                            |
+| Prop                  | Type     | Default                                                                | Required | Description                                                                                                         |
+|-----------------------|----------|------------------------------------------------------------------------|----------|---------------------------------------------------------------------------------------------------------------------|
+| lightgallerySettings  | Object   | {}                                                                     | no       | Setting for lightgallery. [More information](https://sachinchoolur.github.io/lightgallery.js/docs/api.html#options) |
+| galleryClassName      | String   | "react_lightgallery_gallery"                                           | no       | Class name of gallery target element                                                                                |
+| portalElementSelector | String   | body                                                                   | no       | Portal target element for adding divelement(lightgallery target element)                                            |
+| plugins               | String[] | [ "lg-fullscreen.js", "lg-thumbnail.js", "lg-video.js", "lg-zoom.js" ] | no       | List of enabled plugins                                         |
+
+### List of supported plugins
+* lg-autoplay.js
+* lg-fullscreen.js
+* lg-hash.js
+* lg-pager.js
+* lg-thumbnail.js
+* lg-video.js
+* lg-zoom.js
+* lg-share.j
 
 ### Supported Events
 You can access to events by using these **props**:
@@ -138,18 +149,19 @@ class App extends React.Component {
 ## LightgalleryItem
 
 | Prop          | Type   | Default                   | Required | Description                                                     |
-| ------------- | ------ | ------------------------- | -------- | --------------------------------------------------------------- |
+|---------------|--------|---------------------------|----------|-----------------------------------------------------------------|
 | group         | String | undefined                 | yes      | Name of group of photos set                                     |
 | src           | String | undefined                 | yes      | Url to image                                                    |
+| thumb         | String | same as `src`👆           | no       | Url to image                                                    |
 | downloadUrl   | String | undefined                 | no       | Link for download link                                          |
 | subHtml       | String | undefined                 | no       | id or class name of an object(div) which contain your sub html. |
 | itemClassName | String | "react_lightgallery_item" | no       | class name of wrapper(div) of children                          |
 
 # TODO
 
+- Rewrite to typescript
+- Remove lightgallery.js and plugins imports and provide this job to user(developer)
+- Write tests
+- Support of video
 - Access to specific events through LightgalleryItem, like: `onOpen`, `onLeave`, `onEnter`
 - More options from lightgallery for LightgalleryItem
-- Optional plugins
-- Support of video
-- Write tests
-- Write d.ts

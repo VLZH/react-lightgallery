@@ -2,7 +2,6 @@ const resolve = require("rollup-plugin-node-resolve");
 const babel = require("rollup-plugin-babel");
 const commonjs = require("rollup-plugin-commonjs");
 const { terser } = require("rollup-plugin-terser");
-// const { uglify } = require("rollup-plugin-uglify");
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -30,15 +29,18 @@ module.exports = {
         ...(isProduction ? [terser()] : [])
     ],
     external: [
+        "browser-or-node",
+        "lg-autoplay.js",
+        "lg-fullscreen.js",
+        "lg-hash.js",
+        "lg-pager.js",
+        "lg-thumbnail.js",
+        "lg-videl.js",
+        "lg-zoom.js",
+        "lightgallery.js",
+        "prop-types",
         "react",
         "react-dom",
-        "lightgallery.js",
-        "lg-fullscreen.js",
-        "lg-zoom.js",
-        "lg-thumbnail.js",
-        "lg-video.js",
-        "browser-or-node",
-        "prop-types",
         "uniqid"
     ],
     inlineDynamicImports: true

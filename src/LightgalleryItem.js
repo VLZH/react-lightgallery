@@ -10,11 +10,13 @@ export class LightgalleryItem extends Component {
         children: PT.any,
         group: PT.string.isRequired,
         src: PT.string.isRequired,
+        thumb: PT.string,
         subHtml: PT.oneOfType([PT.string, PT.object]),
         downloadUrl: PT.string,
         itemClassName: PT.string
     };
     static contextType = lightgalleryContext;
+
     state = {
         id: uniqid()
     };
@@ -31,11 +33,12 @@ export class LightgalleryItem extends Component {
      * Register this photo in provider
      */
     register = () => {
+        const { src, thumb = src, subHtml = "", downloadUrl = "" } = this.props;
         this.context.registerPhoto(this.state.id, this.props.group, {
-            src: this.props.src,
-            thumb: this.props.src,
-            subHtml: this.props.subHtml || "",
-            downloadUrl: this.props.downloadUrl || ""
+            src,
+            thumb,
+            subHtml,
+            downloadUrl
         });
     };
 
