@@ -13,12 +13,12 @@ export class LightgalleryItem extends Component {
         thumb: PT.string,
         subHtml: PT.oneOfType([PT.string, PT.object]),
         downloadUrl: PT.string,
-        itemClassName: PT.string
+        itemClassName: PT.string,
     };
     static contextType = lightgalleryContext;
 
     state = {
-        id: uniqid()
+        id: uniqid(),
     };
 
     componentDidMount() {
@@ -38,7 +38,7 @@ export class LightgalleryItem extends Component {
             src,
             thumb,
             subHtml,
-            downloadUrl
+            downloadUrl,
         });
     };
 
