@@ -15,19 +15,19 @@ const PLUGINS_LIST = [
     "lg-thumbnail.js",
     "lg-video.js",
     "lg-zoom.js",
-    "lg-share.js"
+    "lg-share.js",
 ];
 
 const DEFAULT_PLUGINS = [
     "lg-fullscreen.js",
     "lg-thumbnail.js",
     "lg-video.js",
-    "lg-zoom.js"
+    "lg-zoom.js",
 ];
 
 export class LightgalleryProvider extends Component {
     static defaultProps = {
-        plugins: DEFAULT_PLUGINS
+        plugins: DEFAULT_PLUGINS,
     };
 
     static propTypes = {
@@ -51,17 +51,34 @@ export class LightgalleryProvider extends Component {
         onSlideClick: PT.func,
         onBeforeClose: PT.func,
         onCloseAfter: PT.func,
-        //
-        onLightgalleryImport: PT.func
+        // special callback that will call on loading of lightgallery.js
+        onLightgalleryImport: PT.func,
     };
 
-    groups = {};
     gallery_element = createRef();
-    listeners = {};
+
+    _groups = {};
+    // keep event handlers for deleting they from element
+    _listeners = {};
     // this component will unmount and we must prevent forceUpdate call from children
-    will_unmount = false;
+    _will_unmount = false;
 
     componentDidMount() {
+        this.loadLightgalleryJS();
+    }
+
+    componentWillUnmount() {
+        this.destroy();
+    }
+
+    _forceUpdate = debounce(this.forceUpdate, 50);
+
+    /**
+     * Lightgallery.js have a lot of browser-only code
+     * For minimize bundle size on first load of page we will load lightgallery.js only using dynamic import
+     * If lightgallery already loaded on page we will ignore load operation
+     */
+    loadLightgalleryJS = () => {
         const { plugins, onLightgalleryImport } = this.props;
         if (isBrowser && !window.lgData) {
             import("lightgallery.js").then(() => {
@@ -94,43 +111,56 @@ export class LightgalleryProvider extends Component {
                 }
             });
         }
-    }
+    };
 
-    componentWillUnmount() {
-        this.will_unmount = true;
+    destroy = () => {
+        this._will_unmount = true;
         this._forceUpdate.cancel();
         this.destroyExistGallery();
-    }
+    };
 
-    _forceUpdate = debounce(this.forceUpdate, 50);
-
+    /**
+     * Get unique id of gallery
+     */
     getLgUid = () => {
         if (this.gallery_element.current)
             return this.gallery_element.current.getAttribute("lg-uid");
     };
 
+    /**
+     * Register new photo in group
+     * After first operation we will add deferred task for rerender
+     */
     registerPhoto = (item_id, group_name, options) => {
-        this.groups = {
-            ...this.groups,
+        this._groups = {
+            ...this._groups,
             [group_name]: [
-                ...(this.groups[group_name] || []),
-                { ...options, id: item_id }
-            ]
+                ...(this._groups[group_name] || []),
+                { ...options, id: item_id },
+            ],
         };
         this._forceUpdate();
     };
 
+    /**
+     * Remove photo from group.
+     * After first operation we will add deferred task for rerender.
+     * If this gallery already marked as to be unmount we will ignore this operations, firstly for ignoring calling _forceUpdate
+     */
     unregisterPhoto = (item_id, group_name) => {
-        if (this.will_unmount) return;
-        this.groups = {
-            ...this.groups,
-            [group_name]: this.groups[group_name].filter(
-                opts => opts.id !== item_id
-            )
+        if (this._will_unmount) return;
+        this._groups = {
+            ...this._groups,
+            [group_name]: this._groups[group_name].filter(
+                (opts) => opts.id !== item_id
+            ),
         };
         this._forceUpdate();
     };
 
+    /**
+     * Destroy already exists lightgallery and remove all listeners
+     */
     destroyExistGallery = () => {
         if (
             typeof window === "object" &&
@@ -143,50 +173,52 @@ export class LightgalleryProvider extends Component {
     };
 
     /**
+     * Register new listener on gallery HTMLElement
      * @prop {string} event_type - event name/type
+     * @prop {function} system_handler - system handler for correct working of this component
      */
-    setUpListener = (event_type, additional_handler) => {
+    setUpListener = (event_type, system_handler) => {
         const el = this.gallery_element.current;
-        const handler = event => {
+        const handler = (event) => {
             if (this.props[event_type]) {
                 // handler in props
                 this.props[event_type](event);
             }
-            if (additional_handler) {
-                additional_handler();
+            if (system_handler) {
+                system_handler();
             }
         };
         el.addEventListener(event_type, handler);
-        if (this.listeners[event_type]) {
-            console.error(`Event ${event_type} already exist in listeners`);
+        // TODO: remove extra check
+        if (this._listeners[event_type]) {
+            console.error(`Event ${event_type} already exist in _listeners`);
         }
-        this.listeners[event_type] = handler;
+        this._listeners[event_type] = handler;
     };
 
     /**
      * Remove listener from slider-element
      * @prop {string} event_type - event name/type
      */
-    removeListener = event_type => {
+    removeListener = (event_type) => {
         const el = this.gallery_element.current;
-        if (this.listeners[event_type]) {
-            el.removeEventListener(event_type, this.listeners[event_type]);
-            delete this.listeners[event_type];
+        // TODO: remove extra check
+        if (this._listeners[event_type]) {
+            el.removeEventListener(event_type, this._listeners[event_type]);
+            delete this._listeners[event_type];
         }
     };
 
     removeListeners = () => {
-        for (const key in this.listeners) {
+        for (const key in this._listeners) {
             this.removeListener(key);
         }
     };
 
+    /**
+     * Setup listeners for events of interest to us
+     */
     setupListeners = () => {
-        const destroy_listener = () => {
-            setTimeout(() => {
-                this.destroyExistGallery();
-            }, 0);
-        };
         this.setUpListener("onBeforeOpen");
         this.setUpListener("onAfterOpen");
         this.setUpListener("onSlideItemLoad");
@@ -199,9 +231,18 @@ export class LightgalleryProvider extends Component {
         this.setUpListener("onDragend");
         this.setUpListener("onSlideClick");
         this.setUpListener("onBeforeClose");
-        this.setUpListener("onCloseAfter", destroy_listener);
+        this.setUpListener("onCloseAfter", () => {
+            setTimeout(() => {
+                this.destroyExistGallery();
+            }, 0);
+        });
     };
 
+    /**
+     * This function checks gallery element on page and exsisting of group.
+     * If all is OK, function will to try destroy not destroyed previous gallery.
+     * Finally will be opened new gallery.
+     */
     openGallery = (item_id, group_name) => {
         if (!this.gallery_element.current) {
             console.error(
@@ -209,18 +250,21 @@ export class LightgalleryProvider extends Component {
             );
             return;
         }
-        if (!this.groups.hasOwnProperty(group_name)) {
-            console.error("Trying to open undefined group");
+        if (!this._groups.hasOwnProperty(group_name)) {
+            console.error(
+                `Trying to open undefined group with name '${group_name}'`
+            );
             return;
         }
+        // force destroy previous gallery (most expected that gallery already destroyed on closing of gallery)
         this.destroyExistGallery();
         // open new gallery
-        const current_group = this.groups[group_name];
+        const current_group = this._groups[group_name];
         lightGallery(this.gallery_element.current, {
             ...(this.props.lightgallerySettings || {}),
             dynamic: true,
             dynamicEl: current_group,
-            index: current_group.findIndex(i => i.id === item_id)
+            index: current_group.findIndex((i) => i.id === item_id),
         });
         this.setupListeners();
     };
@@ -228,7 +272,7 @@ export class LightgalleryProvider extends Component {
     render() {
         const {
             galleryClassName = addPrefix("gallery"),
-            portalElementSelector
+            portalElementSelector,
         } = this.props;
         let portalTarget = null;
         if (isBrowser) {
@@ -248,7 +292,7 @@ export class LightgalleryProvider extends Component {
                 value={{
                     registerPhoto: this.registerPhoto,
                     unregisterPhoto: this.unregisterPhoto,
-                    openGallery: this.openGallery
+                    openGallery: this.openGallery,
                 }}
             >
                 {this.props.children}

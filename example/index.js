@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PT from "prop-types";
 import ReactDOM from "react-dom";
-import { LightgalleryProvider, LightgalleryItem } from "../src/index.js";
+import { LightgalleryProvider, LightgalleryItem } from "../dist/index.js";
 //
 import "./styles.css";
 import "lightgallery.js/dist/css/lightgallery.css";

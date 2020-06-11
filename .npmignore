@@ -2,3 +2,5 @@
 /src
 /example
 /.yarn-error.log
+/.cache
+/.example_dist

@@ -30,7 +30,7 @@ export class LightgalleryItem extends Component {
     }
 
     /**
-     * Register this photo in provider
+     * Register this slide in provider
      */
     register = () => {
         const { src, thumb = src, subHtml = "", downloadUrl = "" } = this.props;
@@ -43,12 +43,15 @@ export class LightgalleryItem extends Component {
     };
 
     /**
-     * Unregister this photo in provider
+     * Unregister this slide in provider
      */
     unregister = () => {
         this.context.unregisterPhoto(this.state.id, this.props.group);
     };
 
+    /**
+     * Open this slide
+     */
     open = () => {
         this.context.openGallery(this.state.id, this.props.group);
     };
