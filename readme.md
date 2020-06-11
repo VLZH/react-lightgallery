@@ -1,4 +1,5 @@
 # About
+
 This package is react wrapper for: [lightgallery.js](https://sachinchoolur.github.io/lightgallery.js)
 
 ![npm](https://img.shields.io/npm/dm/react-lightgallery) ![GitHub issues](https://img.shields.io/github/issues-raw/vlzh/react-lightgallery) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-lightgallery)
@@ -8,12 +9,15 @@ This package is react wrapper for: [lightgallery.js](https://sachinchoolur.githu
 ```bash
 yarn add react-lightgallery
 ```
+
 or
+
 ```bash
 npm install --save react-lightgallery
 ```
 
 # Run example
+
 ```
 git clone git@github.com:VLZH/react-lightgallery.git
 # go to the project folder
@@ -23,6 +27,7 @@ yarn install
 # run example
 yarn start:example
 ```
+
 ## Live demo
 
 [![Edit react-lightgallery1](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/mo45kpo92j?fontsize=14)
@@ -94,27 +99,29 @@ const PhotoItem = ({ image, url, title }) => (
 ## LightgalleryProvider
 
 | Prop                  | Type     | Default                                                                | Required | Description                                                                                                         |
-|-----------------------|----------|------------------------------------------------------------------------|----------|---------------------------------------------------------------------------------------------------------------------|
+| --------------------- | -------- | ---------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------- |
 | lightgallerySettings  | Object   | {}                                                                     | no       | Setting for lightgallery. [More information](https://sachinchoolur.github.io/lightgallery.js/docs/api.html#options) |
 | galleryClassName      | String   | "react_lightgallery_gallery"                                           | no       | Class name of gallery target element                                                                                |
 | portalElementSelector | String   | body                                                                   | no       | Portal target element for adding divelement(lightgallery target element)                                            |
-| plugins               | String[] | [ "lg-fullscreen.js", "lg-thumbnail.js", "lg-video.js", "lg-zoom.js" ] | no       | List of enabled plugins                                         |
+| plugins               | String[] | [ "lg-fullscreen.js", "lg-thumbnail.js", "lg-video.js", "lg-zoom.js" ] | no       | List of enabled plugins                                                                                             |
 
 ### List of supported plugins
-* lg-autoplay.js
-* lg-fullscreen.js
-* lg-hash.js
-* lg-pager.js
-* lg-thumbnail.js
-* lg-video.js
-* lg-zoom.js
-* lg-share.j
+
+-   lg-autoplay.js
+-   lg-fullscreen.js
+-   lg-hash.js
+-   lg-pager.js
+-   lg-thumbnail.js
+-   lg-video.js
+-   lg-zoom.js
+-   lg-share.j
 
 ### Supported Events
+
 You can access to events by using these **props**:
 
 | Prop              | Type     |
-|-------------------|----------|
+| ----------------- | -------- |
 | onAfterOpen       | Function |
 | onSlideItemLoad   | Function |
 | onBeforeSlide     | Function |
@@ -129,13 +136,17 @@ You can access to events by using these **props**:
 | onCloseAfter      | Function |
 
 Example of using events:
+
 ```javascript
 class App extends React.Component {
     render() {
         return (
             <LightgalleryProvider
-                onAfterSlide={(event) => {
-                    console.log(`Prev slide index: ${event.detail.prevIndex}; Current index: ${event.detail.index}`)
+                onAfterSlide={(event, lightgallery_object) => {
+                    console.log(lightgallery_object);
+                    console.log(
+                        `Prev slide index: ${event.detail.prevIndex}; Current index: ${event.detail.index}`
+                    );
                 }}
             >
                 // your components
@@ -145,11 +156,10 @@ class App extends React.Component {
 }
 ```
 
-
 ## LightgalleryItem
 
 | Prop          | Type   | Default                   | Required | Description                                                     |
-|---------------|--------|---------------------------|----------|-----------------------------------------------------------------|
+| ------------- | ------ | ------------------------- | -------- | --------------------------------------------------------------- |
 | group         | String | undefined                 | yes      | Name of group of photos set                                     |
 | src           | String | undefined                 | yes      | Url to image                                                    |
 | thumb         | String | same as `src`👆           | no       | Url to image                                                    |
@@ -159,9 +169,9 @@ class App extends React.Component {
 
 # TODO
 
-- Rewrite to typescript
-- Remove lightgallery.js and plugins imports and provide this job to user(developer)
-- Write tests
-- Support of video
-- Access to specific events through LightgalleryItem, like: `onOpen`, `onLeave`, `onEnter`
-- More options from lightgallery for LightgalleryItem
+-   Rewrite to typescript
+-   Remove lightgallery.js and plugins imports and provide this job to user(developer) (new major version)
+-   Write tests
+-   Support of video
+-   Access to specific events through LightgalleryItem, like: `onOpen`, `onLeave`, `onEnter`
+-   More options from lightgallery for LightgalleryItem

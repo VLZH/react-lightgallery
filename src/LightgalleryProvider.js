@@ -120,7 +120,7 @@ export class LightgalleryProvider extends Component {
     };
 
     /**
-     * Get unique id of gallery
+     * Get unique id of gallery (Example: 'lg3')
      */
     getLgUid = () => {
         if (this.gallery_element.current)
@@ -159,6 +159,13 @@ export class LightgalleryProvider extends Component {
     };
 
     /**
+     * Get lightgallery object
+     */
+    getLightgalleryObject = () => {
+        return window.lgData[this.getLgUid()];
+    };
+
+    /**
      * Destroy already exists lightgallery and remove all listeners
      */
     destroyExistGallery = () => {
@@ -168,7 +175,7 @@ export class LightgalleryProvider extends Component {
             window.lgData[this.getLgUid()]
         ) {
             this.removeListeners();
-            window.lgData[this.getLgUid()].destroy(true);
+            this.getLightgalleryObject().destroy(true);
         }
     };
 
@@ -181,8 +188,7 @@ export class LightgalleryProvider extends Component {
         const el = this.gallery_element.current;
         const handler = (event) => {
             if (this.props[event_type]) {
-                // handler in props
-                this.props[event_type](event);
+                this.props[event_type](event, this.getLightgalleryObject());
             }
             if (system_handler) {
                 system_handler();
