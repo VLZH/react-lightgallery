@@ -1,28 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <meta name="theme-color" content="#000000" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Roboto"
-      rel="stylesheet"
-    />
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <meta name="theme-color" content="#000000" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+        />
+        <title>react-lightgallery example</title>
+    </head>
 
-    <style>
-      body {
-        font-family: "Roboto", sans-serif;
-      }
-    </style>
-    <title>react-lightgallery example</title>
-  </head>
+    <body>
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <div class="navbar-item">
+                    <a
+                        class="px-2 navbar-logo"
+                        href="https://github.com/VLZH/react-lightgallery"
+                    >
+                        react-lightgallery
+                    </a>
+                </div>
+            </div>
 
-  <body>
-    <noscript> You need to enable JavaScript to run this app. </noscript>
-    <div id="root"></div>
-    <script src="./index.js"></script>
-  </body>
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-start"></div>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a
+                                href="https://github.com/VLZH/react-lightgallery"
+                                class="button is-dark"
+                            >
+                                <i class="fab fa-github-alt mr-2"></i>
+                                <strong>Github</strong>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <section class="section">
+            <div class="container">
+                <noscript>
+                    You need to enable JavaScript to run this app.
+                </noscript>
+                <div id="root"></div>
+                <script src="./index.js"></script>
+            </div>
+        </section>
+    </body>
 </html>

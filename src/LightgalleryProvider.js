@@ -127,6 +127,10 @@ export class LightgalleryProvider extends Component {
             return this.gallery_element.current.getAttribute("lg-uid");
     };
 
+    hasGroup = (group_name) => {
+        return this._groups.hasOwnProperty(group_name);
+    };
+
     /**
      * Register new photo in group
      * After first operation we will add deferred task for rerender
@@ -256,7 +260,7 @@ export class LightgalleryProvider extends Component {
             );
             return;
         }
-        if (!this._groups.hasOwnProperty(group_name)) {
+        if (!this.hasGroup(group_name)) {
             console.error(
                 `Trying to open undefined group with name '${group_name}'`
             );
@@ -270,7 +274,10 @@ export class LightgalleryProvider extends Component {
             ...(this.props.lightgallerySettings || {}),
             dynamic: true,
             dynamicEl: current_group,
-            index: current_group.findIndex((i) => i.id === item_id),
+            index: Math.max(
+                current_group.findIndex((i) => i.id === item_id),
+                item_id
+            ),
         });
         this.setupListeners();
     };
@@ -299,6 +306,7 @@ export class LightgalleryProvider extends Component {
                     registerPhoto: this.registerPhoto,
                     unregisterPhoto: this.unregisterPhoto,
                     openGallery: this.openGallery,
+                    hasGroup: this.hasGroup,
                 }}
             >
                 {this.props.children}

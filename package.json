@@ -1,6 +1,6 @@
 {
     "name": "react-lightgallery",
-    "version": "0.7.0",
+    "version": "0.8.0",
     "description": "React wrapper for https://github.com/sachinchoolur/lightgallery.js",
     "keywords": [
         "react",
@@ -26,6 +26,7 @@
     "license": "GPLv3",
     "dependencies": {
         "browser-or-node": "^1.1.0",
+        "hoist-non-react-statics": "^3.3.2",
         "lg-autoplay.js": "^1.2.0",
         "lg-fullscreen.js": "^1.2.0",
         "lg-hash.js": "^1.0.0",

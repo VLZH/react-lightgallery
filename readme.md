@@ -167,6 +167,54 @@ class App extends React.Component {
 | subHtml       | String | undefined                 | no       | id or class name of an object(div) which contain your sub html. |
 | itemClassName | String | "react_lightgallery_item" | no       | class name of wrapper(div) of children                          |
 
+# HOCs and Hooks
+
+> ⚠️ Note!  
+> You should to use this HOCs and hooks only inside of `LightgalleryProvider`
+
+## useLightgallery
+
+React hook that returns `openGallery` function for opening of a group.
+
+### Example
+
+```javascript
+import React, { useCallback } from "react";
+import { useLightgallery } from "react-lightgallery";
+
+function MySuperButton({ group_name }) {
+    const { openGallery } = useLightgallery();
+
+    const open = useCallback(() => {
+        openGallery(group_name); // you must to define target group
+    }, [group_name]);
+
+    return <button onClick={open}>Open gallery</button>;
+}
+```
+
+## withLightgallery
+
+React HOC for providing `openGallery` function.
+
+### Example
+
+```javascript
+import React, { useCallback } from "react";
+import { withLightgallery } from "react-lightgallery";
+
+@withLightgallery
+class MySuperButton(){
+    open = () => {
+        this.props.openGallery("very_cool_group")
+    }
+
+    render() {
+        return <button onClick={this.open}>Open gallery</button>;
+    }
+}
+```
+
 # TODO
 
 -   Rewrite to typescript

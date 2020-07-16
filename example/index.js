@@ -1,26 +1,32 @@
 import React, { useState } from "react";
 import PT from "prop-types";
 import ReactDOM from "react-dom";
-import { LightgalleryProvider, LightgalleryItem } from "../dist/index.js";
+import {
+    LightgalleryProvider,
+    LightgalleryItem,
+    withLightgallery,
+    useLightgallery,
+} from "../dist/index.js";
 //
 import "./styles.css";
 import "lightgallery.js/dist/css/lightgallery.css";
 
 const GROUP1 = [
     [
-        "https://images.unsplash.com/flagged/photo-1551706646-9c816bfbff8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1567&q=80",
-        "https://images.unsplash.com/flagged/photo-1551706646-9c816bfbff8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=90&q=80"
+        "https://images.unsplash.com/photo-1592549585866-486f41343aaf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
+        "https://images.unsplash.com/photo-1592549585866-486f41343aaf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
     ],
     [
-        "https://images.unsplash.com/photo-1551633550-64761da5342b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1001&q=80",
-        "https://images.unsplash.com/photo-1551633550-64761da5342b?ixlib=rb-1.2.1&auto=format&fit=crop&w=90&q=80"
-    ]
+        "https://images.unsplash.com/photo-1594614271360-0ed9a570ae15?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
+        "https://images.unsplash.com/photo-1594614271360-0ed9a570ae15?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
+    ],
 ];
 
 const GROUP2 = [
-    "https://images.unsplash.com/photo-1551833726-deb5e781c68f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
-    "https://images.unsplash.com/photo-1551803021-92431219e83e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
-    "https://images.unsplash.com/photo-1551852284-ce16dd4d63d3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+    "https://images.unsplash.com/photo-1594818898109-44704fb548f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
+    "https://images.unsplash.com/photo-1594818896795-35ad7bcf3c6a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
+    "https://images.unsplash.com/photo-1594818896744-57eca4d47b07?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
+    "https://images.unsplash.com/photo-1594818897077-aec41f55241f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1951&q=80",
 ];
 
 const PhotoItem = ({ image, thumb, group }) => (
@@ -33,16 +39,57 @@ const PhotoItem = ({ image, thumb, group }) => (
 PhotoItem.propTypes = {
     image: PT.string.isRequired,
     thumb: PT.string,
-    group: PT.string.isRequired
+    group: PT.string.isRequired,
+};
+
+const OpenButtonWithHoc = withLightgallery(({ openGallery, ...props }) => {
+    return (
+        <button
+            {...props}
+            onClick={() => {
+                openGallery("group1");
+            }}
+            className={["button is-primary", props.className || ""].join(" ")}
+        >
+            Open first photos group (using hoc)
+        </button>
+    );
+});
+
+const OpenButtonWithHook = (props) => {
+    const { openGallery } = useLightgallery();
+    return (
+        <button
+            {...props}
+            onClick={() => openGallery("group2")}
+            className={["button is-primary", props.className || ""].join(" ")}
+        >
+            Open second photos group (using hook)
+        </button>
+    );
+};
+OpenButtonWithHook.propTypes = {
+    className: PT.string,
 };
 
 function App() {
     const [visible, setVisible] = useState(true);
     return (
-        <>
-            <button onClick={() => setVisible(!visible)}>
-                Change visibility
+        <div className="content">
+            <button
+                className="button is-light"
+                style={{
+                    position: "absolute"
+                }}
+                onClick={() => setVisible(!visible)}
+            >
+                {visible ? (
+                    <i className="fas fa-eye-slash"></i>
+                ) : (
+                    <i className="fas fa-eye"></i>
+                )}
             </button>
+
             <div>
                 {visible ? (
                     <LightgalleryProvider
@@ -65,7 +112,13 @@ function App() {
                         onCloseAfter={() => console.info("onCloseAfter")}
                     >
                         <h1 style={{ textAlign: "center" }}>Group 1</h1>
-                        <div style={{ display: "flex", alignItems: "center" }}>
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                        >
                             {GROUP1.map((p, idx) => (
                                 <PhotoItem
                                     key={idx}
@@ -76,17 +129,25 @@ function App() {
                             ))}
                         </div>
                         <h1 style={{ textAlign: "center" }}>Group 2</h1>
-                        <div style={{ display: "flex", alignItems: "center" }}>
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                        >
                             {GROUP2.map((p, idx) => (
                                 <PhotoItem key={idx} image={p} group="group2" />
                             ))}
                         </div>
+                        <div className="buttons mt-4">
+                            <OpenButtonWithHoc className="mr-2" />
+                            <OpenButtonWithHook />
+                        </div>
                     </LightgalleryProvider>
-                ) : (
-                    <p>Unvisible</p>
-                )}
+                ) : null}
             </div>
-        </>
+        </div>
     );
 }
 
