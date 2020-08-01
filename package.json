@@ -23,7 +23,7 @@
     },
     "author": "VLZH",
     "repository": "https://github.com/VLZH/react-lightgallery.git",
-    "license": "GPLv3",
+    "license": "MIT",
     "dependencies": {
         "browser-or-node": "^1.1.0",
         "hoist-non-react-statics": "^3.3.2",
