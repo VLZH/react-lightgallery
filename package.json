@@ -21,7 +21,7 @@
         "start:example": "parcel serve --out-dir ./.example_dist ./example/index.html",
         "lint": "yarn eslint ./"
     },
-    "author": "VLZH",
+    "author": "vlzh",
     "repository": "https://github.com/VLZH/react-lightgallery.git",
     "license": "MIT",
     "dependencies": {
