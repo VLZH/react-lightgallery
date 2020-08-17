@@ -4,7 +4,7 @@ import PT from "prop-types";
 import debounce from "lodash/debounce";
 import { isBrowser } from "browser-or-node";
 //
-import lightgalleryContext from "./lightgalleryContext";
+import { lightgalleryContext } from "./lightgalleryContext";
 import { addPrefix } from "./utils";
 
 const PLUGINS_LIST = [
@@ -135,12 +135,12 @@ export class LightgalleryProvider extends Component {
      * Register new photo in group
      * After first operation we will add deferred task for rerender
      */
-    registerPhoto = (item_id, group_name, options) => {
+    registerPhoto = (item_uid, group_name, options) => {
         this._groups = {
             ...this._groups,
             [group_name]: [
                 ...(this._groups[group_name] || []),
-                { ...options, id: item_id },
+                { ...options, uid: item_uid },
             ],
         };
         this._forceUpdate();
@@ -151,12 +151,12 @@ export class LightgalleryProvider extends Component {
      * After first operation we will add deferred task for rerender.
      * If this gallery already marked as to be unmount we will ignore this operations, firstly for ignoring calling _forceUpdate
      */
-    unregisterPhoto = (item_id, group_name) => {
+    unregisterPhoto = (item_uid, group_name) => {
         if (this._will_unmount) return;
         this._groups = {
             ...this._groups,
             [group_name]: this._groups[group_name].filter(
-                (opts) => opts.id !== item_id
+                (opts) => opts.uid !== item_uid
             ),
         };
         this._forceUpdate();
@@ -249,35 +249,54 @@ export class LightgalleryProvider extends Component {
     };
 
     /**
-     * This function checks gallery element on page and exsisting of group.
-     * If all is OK, function will to try destroy not destroyed previous gallery.
-     * Finally will be opened new gallery.
+     * Returns group by name, if group with specific name does not exist this function print error message to console.
+     * @param {String} group_name name of group
      */
-    openGallery = (item_id, group_name) => {
-        if (!this.gallery_element.current) {
-            console.error(
-                "Error on trying to open gallery; ref 'gallery_element' is not defined"
-            );
-            return;
-        }
+    getGroupByName = (group_name) => {
         if (!this.hasGroup(group_name)) {
             console.error(
                 `Trying to open undefined group with name '${group_name}'`
             );
             return;
         }
+        const current_group = this._groups[group_name];
+        return current_group;
+    };
+
+    /**
+     * Open gallery with specific item by item unique id.
+     * @param {String} item_uid unique id of item
+     * @param {String} group_name name of group
+     */
+    openGallery = (item_uid, group_name) => {
+        const current_group = this.getGroupByName(group_name);
+        const index = Math.max(
+            current_group.findIndex((i) => i.uid === item_uid),
+            0
+        );
+        this.openGalleryByIndex(index, group_name);
+    };
+
+    /**
+     * @param {Number} item_idx number of slide
+     * @param {String} group_name name of group
+     */
+    openGalleryByIndex = (item_idx = 0, group_name) => {
+        if (!this.gallery_element.current) {
+            console.error(
+                "Error on trying to open gallery; ref 'gallery_element' is not defined"
+            );
+            return;
+        }
         // force destroy previous gallery (most expected that gallery already destroyed on closing of gallery)
         this.destroyExistGallery();
         // open new gallery
-        const current_group = this._groups[group_name];
+        const current_group = this.getGroupByName(group_name);
         lightGallery(this.gallery_element.current, {
             ...(this.props.lightgallerySettings || {}),
             dynamic: true,
             dynamicEl: current_group,
-            index: Math.max(
-                current_group.findIndex((i) => i.id === item_id),
-                item_id
-            ),
+            index: item_idx,
         });
         this.setupListeners();
     };
@@ -306,6 +325,7 @@ export class LightgalleryProvider extends Component {
                     registerPhoto: this.registerPhoto,
                     unregisterPhoto: this.unregisterPhoto,
                     openGallery: this.openGallery,
+                    openGalleryByIndex: this.openGalleryByIndex,
                     hasGroup: this.hasGroup,
                 }}
             >

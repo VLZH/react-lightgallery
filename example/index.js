@@ -42,34 +42,33 @@ PhotoItem.propTypes = {
     group: PT.string.isRequired,
 };
 
-const OpenButtonWithHoc = withLightgallery(({ openGallery, ...props }) => {
-    return (
-        <button
-            {...props}
-            onClick={() => {
-                openGallery("group1");
-            }}
-            className={["button is-primary", props.className || ""].join(" ")}
-        >
-            Open first photos group (using hoc)
-        </button>
-    );
-});
+const OpenButtonWithHoc = withLightgallery(
+    ({ openGallery, className, ...rest }) => {
+        return (
+            <button
+                {...rest}
+                onClick={() => {
+                    openGallery("group1");
+                }}
+                className={["button is-primary", className || ""].join(" ")}
+            />
+        );
+    }
+);
 
-const OpenButtonWithHook = (props) => {
+const OpenButtonWithHook = ({ className, index, ...rest }) => {
     const { openGallery } = useLightgallery();
     return (
         <button
-            {...props}
-            onClick={() => openGallery("group2")}
-            className={["button is-primary", props.className || ""].join(" ")}
-        >
-            Open second photos group (using hook)
-        </button>
+            {...rest}
+            onClick={() => openGallery("group2", index)}
+            className={["button is-primary", className || ""].join(" ")}
+        />
     );
 };
 OpenButtonWithHook.propTypes = {
     className: PT.string,
+    index: PT.number,
 };
 
 function App() {
@@ -79,7 +78,7 @@ function App() {
             <button
                 className="button is-light"
                 style={{
-                    position: "absolute"
+                    position: "absolute",
                 }}
                 onClick={() => setVisible(!visible)}
             >
@@ -141,8 +140,16 @@ function App() {
                             ))}
                         </div>
                         <div className="buttons mt-4">
-                            <OpenButtonWithHoc className="mr-2" />
-                            <OpenButtonWithHook />
+                            <OpenButtonWithHoc className="mr-2">
+                                Open first photos group (using hoc)
+                            </OpenButtonWithHoc>
+                            <OpenButtonWithHook>
+                                Open second photos group (using hook)
+                            </OpenButtonWithHook>
+                            <OpenButtonWithHook index={3}>
+                                Open second photos group with index 3 (using
+                                hook)
+                            </OpenButtonWithHook>
                         </div>
                     </LightgalleryProvider>
                 ) : null}
