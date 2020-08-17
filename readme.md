@@ -186,7 +186,7 @@ function MySuperButton({ group_name }) {
     const { openGallery } = useLightgallery();
 
     const open = useCallback(() => {
-        openGallery(group_name); // you must to define target group
+        openGallery(group_name, 5); // you must to define target group, index (second parameter) is optional
     }, [group_name]);
 
     return <button onClick={open}>Open gallery</button>;
