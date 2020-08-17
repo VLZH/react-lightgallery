@@ -9,24 +9,24 @@ module.exports = {
     input: "src/index.js",
     output: {
         file: "./dist/index.js",
-        format: "cjs"
+        format: "cjs",
     },
     plugins: [
         resolve({
             // pass custom options to the resolve plugin
             customResolveOptions: {
-                moduleDirectory: "node_modules"
-            }
+                moduleDirectory: "node_modules",
+            },
         }),
         babel({
-            exclude: "node_modules/**" // only transpile our source code
+            exclude: "node_modules/**", // only transpile our source code
         }),
         commonjs({
             include: "node_modules/**",
-            namedExports: {}
+            namedExports: {},
         }),
         // production plugins
-        ...(isProduction ? [terser()] : [])
+        ...(isProduction ? [terser()] : []),
     ],
     external: [
         "browser-or-node",
@@ -42,7 +42,7 @@ module.exports = {
         "prop-types",
         "react",
         "react-dom",
-        "uniqid"
+        "uniqid",
     ],
-    inlineDynamicImports: true
+    inlineDynamicImports: true,
 };
