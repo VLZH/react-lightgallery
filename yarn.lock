@@ -3760,10 +3760,10 @@ lg-thumbnail.js@^1.2.0:
   resolved "https://registry.yarnpkg.com/lg-thumbnail.js/-/lg-thumbnail.js-1.2.0.tgz#863bda569ee868229a4f80152e4c026a4c47f686"
   integrity sha512-qmNFbjLv1spCf3sB8HRX9vW8UtKcgq7qJIg10jLqCozSquhTJwSPUb5vyPgl3cZpgLFjRMiOpIRgBjGrX4inNQ==
 
-lg-video.js@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/lg-video.js/-/lg-video.js-1.2.0.tgz#84bd461216e3b92d01a5590d73980b611d6474fc"
-  integrity sha512-BkitJqHmWFEm2jwIYv3+vrnwJZ1aDWqfb67QJdYY/eGyf0f+84qWylbMWoJHyZDpdN5wsBR3gF1/I6z0ZDoPqQ==
+lg-video.js@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/lg-video.js/-/lg-video.js-1.2.1.tgz#c08400901c681b8137df8fbdc2a32eb3aca873e7"
+  integrity sha512-eFq7q4gWNu/8MCd/iiph8Ls4P+U3913cq0xqDSXc62BrGtF4lemdUsX49ekLO+fngveFXpFlgLeG+OE9JeMTbA==
 
 lg-zoom.js@^1.2.0:
   version "1.2.0"
