@@ -29,6 +29,16 @@ const GROUP2 = [
     "https://images.unsplash.com/photo-1594818897077-aec41f55241f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1951&q=80",
 ];
 
+const GROUP3 = [
+    {"imageUrl": "https://images.unsplash.com/photo-1594818898109-44704fb548f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"},
+    {"imageUrl": "https://images.unsplash.com/photo-1594818898109-44704fb548f6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"},
+    {
+        "preview": "https://img.youtube.com/vi/71I9gVaQ0Zk/maxresdefault.jpg",
+        "poster": "https://img.youtube.com/vi/71I9gVaQ0Zk/maxresdefault.jpg", 
+        "videoUrl": "https://www.youtube.com/embed/71I9gVaQ0Zk",
+    }
+];
+
 const PhotoItem = ({ image, thumb, group }) => (
     <div style={{ maxWidth: "250px", width: "200px", padding: "5px" }}>
         <LightgalleryItem group={group} src={image} thumb={thumb}>
@@ -40,6 +50,20 @@ PhotoItem.propTypes = {
     image: PT.string.isRequired,
     thumb: PT.string,
     group: PT.string.isRequired,
+};
+
+const VideoItem = ({ src, group, preview, poster }) => (
+    <div style={{ maxWidth: "250px", width: "200px", padding: "5px" }}>
+        <LightgalleryItem group={group} src={src} title="Demo" poster={poster}>
+            <img src={preview} style={{ width: "100%" }} />
+        </LightgalleryItem>
+    </div>
+);
+VideoItem.propTypes = {
+    src: PT.string.isRequired, 
+    preview: PT.string,
+    group: PT.string.isRequired,
+    poster: PT.string,
 };
 
 const OpenButtonWithHoc = withLightgallery(
@@ -127,7 +151,8 @@ function App() {
                                 />
                             ))}
                         </div>
-                        <h1 style={{ textAlign: "center" }}>Group 2</h1>
+                        <h2 style={{ textAlign: "center" }}>Group 2</h2>
+
                         <div
                             style={{
                                 display: "flex",
@@ -139,6 +164,26 @@ function App() {
                                 <PhotoItem key={idx} image={p} group="group2" />
                             ))}
                         </div>
+
+                        <h2 style={{ textAlign: "center" }}>Group 3 with video</h2>
+
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                        >
+                            {GROUP3.map((o, idx) => (
+                                <>
+                                    {o.imageUrl && <PhotoItem key={idx} image={o.imageUrl} group="group3" />}
+                                    {o.videoUrl && <VideoItem key={idx} src={o.videoUrl} group="group3" preview={o.preview} poster={o.poster} />}
+                                </>
+                            ))}
+                        </div>
+
+                        <h2 style={{ textAlign: "center" }}>Buttons</h2>
+
                         <div className="buttons mt-4">
                             <OpenButtonWithHoc className="mr-2">
                                 Open first photos group (using hoc)

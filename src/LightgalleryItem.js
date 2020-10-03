@@ -14,6 +14,7 @@ export class LightgalleryItem extends Component {
         subHtml: PT.oneOfType([PT.string, PT.object]),
         downloadUrl: PT.string,
         itemClassName: PT.string,
+        poster: PT.string,
     };
     static contextType = lightgalleryContext;
 
@@ -33,12 +34,13 @@ export class LightgalleryItem extends Component {
      * Register this slide in provider
      */
     register = () => {
-        const { src, thumb = src, subHtml = "", downloadUrl = "" } = this.props;
+        const { src, thumb = src, subHtml = "", downloadUrl = "", poster = "", } = this.props;
         this.context.registerPhoto(this.state.id, this.props.group, {
             src,
             thumb,
             subHtml,
             downloadUrl,
+            poster,
         });
     };
 

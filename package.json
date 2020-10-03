@@ -1,6 +1,6 @@
 {
     "name": "react-lightgallery",
-    "version": "0.9.0",
+    "version": "0.9.1",
     "description": "React wrapper for https://github.com/sachinchoolur/lightgallery.js",
     "keywords": [
         "react",
@@ -33,9 +33,9 @@
         "lg-pager.js": "^1.0.0",
         "lg-share.js": "^1.3.0",
         "lg-thumbnail.js": "^1.2.0",
-        "lg-video.js": "^1.2.0",
+        "lg-video.js": "^1.2.1",
         "lg-zoom.js": "^1.2.0",
-        "lightgallery.js": "^1.2.0",
+        "lightgallery.js": "^1.2.1",
         "lodash": "^4.17.15",
         "prop-types": "^15.7.2",
         "uniqid": "^5.2.0"
