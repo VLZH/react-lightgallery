@@ -163,6 +163,7 @@ class App extends React.Component {
 | group         | String | undefined                 | yes      | Name of group of photos set                                     |
 | src           | String | undefined                 | yes      | Url to image                                                    |
 | thumb         | String | undefined           | no       | Url to thumbnail image                                                    |
+| poster         | String | undefined           | no       | Url to poster image. Required to avoid autoplay for video items                                                    |
 | downloadUrl   | String | undefined                 | no       | Link for download link                                          |
 | subHtml       | String | undefined                 | no       | id or class name of an object(div) which contain your sub html. |
 | itemClassName | String | "react_lightgallery_item" | no       | class name of wrapper(div) of children                          |
